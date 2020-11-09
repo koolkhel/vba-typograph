@@ -1,3 +1,21 @@
+Sub ReplaceQuotes(toReplace As String)
+
+    With Selection.Find
+       .ClearFormatting
+       .Replacement.ClearFormatting
+       .Text = toReplace
+       With .Replacement
+       .Text = "«\1»"
+       End With
+       .Wrap = wdFindStop
+       .MatchWildcards = True
+       .Replacement.Font.Italic = True
+       .Execute Replace:=wdReplaceAll
+    End With
+
+
+End Sub
+
 Sub Typograph()
     '
     ' Typograph Макрос
@@ -9,49 +27,10 @@ blnQuotes = Options.AutoFormatAsYouTypeReplaceQuotes
 Options.AutoFormatAsYouTypeReplaceQuotes = False
 ' прямые кавычки
 If Selection.Type = wdSelectionNormal Then
-    With Selection.Find
-       .ClearFormatting
-       .Replacement.ClearFormatting
-       .Text = """(*)"""
-       .Replacement.Text = "«\1»"
-       .Wrap = wdFindContinue
-       .MatchWildcards = True
-       .Replacement.Font.Italic = True
-       .Execute Replace:=wdReplaceOne
-    End With
-    ' лапки
-    With Selection.Find
-       .ClearFormatting
-       .Replacement.ClearFormatting
-       .Text = "“(*)”"
-       .Replacement.Text = "«\1»"
-       .Wrap = wdFindContinue
-       .MatchWildcards = True
-       .Replacement.Font.Italic = True
-       .Execute Replace:=wdReplaceOne
-    End With
-    ' лапки 2
-    With Selection.Find
-       .ClearFormatting
-       .Replacement.ClearFormatting
-       .Text = "„(*)“"
-       .Replacement.Text = "«\1»"
-       .Wrap = wdFindContinue
-       .MatchWildcards = True
-       .Replacement.Font.Italic = True
-       .Execute Replace:=wdReplaceOne
-    End With
-    ' елочки - курсив
-    With Selection.Find
-       .ClearFormatting
-       .Replacement.ClearFormatting
-       .Text = "«(*)»"
-       .Replacement.Text = "«\1»"
-       .Wrap = wdFindContinue
-       .MatchWildcards = True
-       .Replacement.Font.Italic = True
-       .Execute Replace:=wdReplaceOne
-    End With
+    ReplaceQuotes ("""(*)""")
+    ReplaceQuotes ("“(*)”")
+    ReplaceQuotes ("„(*)“")
+    ReplaceQuotes ("«(*)»")
     ' тире (хоть тут по тексту и не видно
     With Selection.Find
        .ClearFormatting
