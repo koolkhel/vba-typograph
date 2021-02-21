@@ -107,7 +107,7 @@ Sub ReplaceQuotes(toReplace As String)
        .Replacement.ClearFormatting
        .Text = toReplace
        With .Replacement
-        .Text = "В«\1В»"
+        .Text = "«\1»"
        End With
        .Wrap = wdFindStop
        .MatchWildcards = True
@@ -119,16 +119,16 @@ End Sub
 
 Sub Typograph()
     Dim blnQuotes As Boolean
-    '  Р·Р°РїРѕРјРЅРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєСѓСЋ СѓСЃС‚Р°РЅРѕРІРєСѓ
+    '  запомнить пользовательскую установку
     blnQuotes = Options.AutoFormatAsYouTypeReplaceQuotes
     Options.AutoFormatAsYouTypeReplaceQuotes = False
-    ' РїСЂСЏРјС‹Рµ РєР°РІС‹С‡РєРё
+    ' прямые кавычки
     If Selection.Type = wdSelectionNormal Then
-        ' Selection.ClearFormatting
+        Selection.ClearFormatting
         FormatText
-        ReplaceQuotes ("В«(*)В»")
+        ReplaceQuotes ("«(*)»")
     End If
-'РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєСѓСЋ СѓСЃС‚Р°РЅРѕРІРєСѓ
+'восстановить пользовательскую установку
 Options.AutoFormatAsYouTypeReplaceQuotes = blnQuotes
 End Sub
 
