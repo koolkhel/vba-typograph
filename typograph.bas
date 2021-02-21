@@ -12,7 +12,8 @@ Sub FormatText()
     Dim str_encoding As String
     
     Set pClient = New WebClient
-    pClient.BaseUrl = "http://localhost:8000"
+    
+    pClient.BaseUrl = "http://3.123.131.252:8000"
     
     str_boundary = RandomString(24)
     str_text = Selection.Text
@@ -123,10 +124,10 @@ Sub Typograph()
     Options.AutoFormatAsYouTypeReplaceQuotes = False
     ' прямые кавычки
     If Selection.Type = wdSelectionNormal Then
+        Selection.ClearFormatting
         FormatText
         ReplaceQuotes ("«(*)»")
     End If
-    Options.AutoFormatAsYouTypeReplaceQuotes = blnQuotes
 'восстановить пользовательскую установку
 Options.AutoFormatAsYouTypeReplaceQuotes = blnQuotes
 End Sub
