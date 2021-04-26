@@ -23,12 +23,16 @@ Sub FormatText()
     str_encoding = "cp1251"
     #End If
     
-    pRequest.Resource = ""
+    pRequest.Resource = "/"
     pRequest.Method = HttpPost
     pRequest.ResponseFormat = PlainText
         
     pRequest.ContentType = lbb_make_post_cont_type(str_boundary)
     pRequest.Body = lbb_make_post_body(str_text, str_encoding, str_boundary)
+     
+     ' VBA-Web seems to say more to Content-Length than there really is
+     pRequest.ContentLength = CStr(CInt(pRequest.ContentLength) - 6)
+     ' WebHelpers.EnableLogging = True
      
     Set pResponse = pClient.Execute(pRequest)
     If pResponse.StatusCode = WebStatusCode.Ok Then
@@ -39,12 +43,6 @@ End Sub
 Public Function lbb_make_post_body(str_xml As String, encoding As String, str_boundary As String)
     
     lbb_make_post_body = "" _
-    & "----------------------------" & str_boundary & vbNewLine _
-    & "Content-Disposition: form-data; name='Content-Type'" & vbNewLine & vbNewLine _
-    & "text/xml" & vbNewLine _
-    & "----------------------------" & str_boundary & vbNewLine _
-    & "Content-Disposition: form-data; name='Content-Transfer-Encoding'" & vbNewLine & vbNewLine _
-    & "binary" & vbNewLine _
     & "----------------------------" & str_boundary & vbNewLine _
     & "Content-Disposition: form-data; name='text'; filename='test.txt'" & vbNewLine _
     & "Content-Type: text/plain" & vbNewLine & vbNewLine _
@@ -132,3 +130,6 @@ Sub Typograph()
 Options.AutoFormatAsYouTypeReplaceQuotes = blnQuotes
 End Sub
 
+Sub PasteNoFormat()
+    Selection.PasteAndFormat wdFormatPlainText
+End Sub
